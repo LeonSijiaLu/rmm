@@ -55,20 +55,7 @@ INSTANTIATE_TEST_SUITE_P(ResourceAllocationTests,
                                            "Binning"),
                          [](auto const& info) { return info.param; });
 
-TEST(DefaultTest, CurrentDeviceResourceIsCUDA)
-{
-  EXPECT_NE(nullptr, rmm::mr::get_current_device_resource());
-  EXPECT_TRUE(rmm::mr::get_current_device_resource()->is_equal(rmm::mr::cuda_memory_resource{}));
-}
-
-TEST(DefaultTest, UseCurrentDeviceResource) { test_get_current_device_resource_ref(); }
-
-TEST(DefaultTest, GetCurrentDeviceResource)
-{
-  auto* mr = rmm::mr::get_current_device_resource();
-  EXPECT_NE(nullptr, mr);
-  EXPECT_TRUE(mr->is_equal(rmm::mr::cuda_memory_resource{}));
-}
+TEST(DefaultTest, UseCurrentDeviceResourceRef) { test_get_current_device_resource_ref(); }
 
 TEST(DefaultTest, GetCurrentDeviceResourceRef)
 {
@@ -77,7 +64,7 @@ TEST(DefaultTest, GetCurrentDeviceResourceRef)
 }
 
 // Disable until we support resource_ref with set_current_device_resource
-TEST_P(mr_ref_test, SetCurrentDeviceResource)
+TEST_P(mr_ref_test, SetCurrentDeviceResourceRef)
 {
   rmm::mr::cuda_memory_resource cuda_mr{};
   auto cuda_ref = rmm::device_async_resource_ref{cuda_mr};
